@@ -1,12 +1,14 @@
-var mongoose        = require("mongoose");
+var mongoose        = require('mongoose');
 var Schema          = mongoose.Schema;
-var bcrypt          = require("bcrypt");
+var bcrypt          = require('bcrypt');
 var SALT_WORK_FACTOR    = 10;
 
 var userSchema = new Schema({
     name: String,
     password: String,
-    admin: Boolean
+    admin: Boolean,
+    googleId: String,
+    provider: String
 });
 
 userSchema.pre('save', function(next) {
