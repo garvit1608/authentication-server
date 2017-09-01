@@ -8,7 +8,6 @@ router.get('/', function(req, res, next) {
 });
 
 router.get('/setup', function(req, res) {
-  console.log('here');
   var user = new User({
     name: 'Garvit',
     password: 'password',

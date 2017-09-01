@@ -22,7 +22,7 @@ module.exports = {
             res.json({ success: false, message: 'Password is not correct' });
           } else {
 
-            var token = jwt.sign(user, config.secret, {
+            var token = jwt.sign({user: user}, config.secret, {
               expiresIn: '1440m'
             });
 
@@ -41,11 +41,12 @@ module.exports = {
 
     if (token) {
 
-      jwt.verify(token, config.secret, function(err) {
+      jwt.verify(token, config.secret, function(err, decoded) {
 
         if (err) {
           return res.json({ success: false, message: 'Failed to authencticate token' });
         } else {
+          req.user = decoded.user;
           next();
         }
       })
@@ -55,5 +56,17 @@ module.exports = {
         message: 'No token provided'
       });
     }
+  },
+
+  generateJwtToken: function(res, user) {
+
+    var token = jwt.sign({user: user}, config.secret, {
+      expiresIn: '1440m'
+    });
+
+    res.json({
+      success: true,
+      token: token
+    });
   }
 }

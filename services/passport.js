@@ -18,7 +18,6 @@ module.exports = function(passport) {
     callbackURL: 'http://localhost:3000/omniauth/google_oauth2/callback'
   },
     function(token, refreshToken, profile, cb) {
-      console.log('validated');
 
       User.findOne({ googleId: profile.id }, function(err, user) {
         if (err) {
@@ -39,7 +38,6 @@ module.exports = function(passport) {
             return cb(null, user);
           });
         } else {
-          console.log(user);
           return cb(null, user);
         }
       });

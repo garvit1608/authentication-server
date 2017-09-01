@@ -13,6 +13,8 @@ require('./services/passport')(passport);
 
 var index = require('./routes/index');
 var users = require('./routes/users');
+var contacts = require('./routes/contacts');
+var project = require('./routes/project');
 
 var app = express();
 
@@ -31,6 +33,10 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', index);
 app.use('/users', users);
+app.post('/contacts/add', contacts.add);
+app.get('/contacts/list', contacts.list);
+app.use('/projects', project);
+
 
 app.post('/authenticate', authService.authenticate);
 
@@ -40,6 +46,7 @@ app.get('/auth/google',
 app.get('/omniauth/google_oauth2/callback',
   passport.authenticate('google', { failureRedirect: '/login' }),
   function(req, res) {
+    authService.generateJwtToken(res, req.user);
     res.send('google authentication successfull');
   });
 
