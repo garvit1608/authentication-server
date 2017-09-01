@@ -8,7 +8,8 @@ var userSchema = new Schema({
     password: String,
     admin: Boolean,
     googleId: String,
-    provider: String
+    provider: String,
+    contacts: [{ type: Schema.Types.ObjectId, ref: 'Contact' }]
 });
 
 userSchema.pre('save', function(next) {
