@@ -43,6 +43,8 @@ userSchema.pre('save', function(next) {
 userSchema.post('save', function(err, user, next) {
   if (err.name === 'MongoError' && err.code === 11000) {
     next(new Error('Username must be unique'));
+  } else {
+    next();
   }
 });
 
