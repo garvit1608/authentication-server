@@ -1,14 +1,34 @@
 var jwt    = require('jsonwebtoken');
 var User = require('../models/user');
 var config = require('../config/config');
+var Responder = require('./responder');
 
 module.exports = {
+
+  signup: function(req, res) {
+    var params = req.body;
+    console.log(params);
+    var user = new User(params);
+
+    user.save(function(err) {
+      if (err) {
+        Responder.error(res, err);
+      } else {
+        Responder.success(res, {
+          success: true
+        });
+      }
+    });
+  },
+
   authenticate: function(req, res) {
     User.findOne({
-      name: req.body.name
+      username: req.body.username
     }, function(err, user) {
 
-      if (err) throw err;
+      if (err) {
+        Responder.error(res, err);
+      }
 
       if (!user) {
         res.json({ success: false, message: 'User not found' });

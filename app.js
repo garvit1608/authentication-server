@@ -13,8 +13,8 @@ require('./services/passport')(passport);
 
 var index = require('./routes/index');
 var users = require('./routes/users');
-var contacts = require('./routes/contacts');
-var project = require('./routes/project');
+// var contacts = require('./routes/contacts');
+// var project = require('./routes/project');
 
 var app = express();
 
@@ -33,11 +33,12 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', index);
 app.use('/users', users);
-app.post('/contacts/add', contacts.add);
-app.get('/contacts/list', contacts.list);
-app.use('/projects', project);
+// app.post('/contacts/add', contacts.add);
+// app.get('/contacts/list', contacts.list);
+// app.use('/projects', project);
 
 
+app.post('/signup', authService.signup);
 app.post('/authenticate', authService.authenticate);
 
 app.get('/auth/google',

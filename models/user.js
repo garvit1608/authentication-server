@@ -5,10 +5,17 @@ var SALT_WORK_FACTOR    = 10;
 
 var userSchema = new Schema({
   name: String,
-  username: { type: String, unique: true, required: true },
-  password: String,
+  username: {
+    type: String,
+    unique: true,
+    required: [true, 'Username is required']
+  },
+  password: {
+    type: String,
+    required: [true, 'Password is required']
+  },
   admin: Boolean,
-  googleId: { type: String, unique: true },
+  googleId: String,
   provider: String
 });
 
@@ -31,6 +38,12 @@ userSchema.pre('save', function(next) {
       next();
     });
   });
+});
+
+userSchema.post('save', function(err, user, next) {
+  if (err.name === 'MongoError' && err.code === 11000) {
+    next(new Error('Username must be unique'));
+  }
 });
 
 userSchema.methods.validPassword = function(candidatePassword, cb) {
