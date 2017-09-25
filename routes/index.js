@@ -8,6 +8,10 @@ router.get('/', function(req, res, next) {
   res.render('index', { title: 'Express' });
 });
 
+/**
+ * Creates dummy admin
+ */
+
 router.get('/setup', function(req, res) {
   var user = new User({
     username: 'garvit.v',

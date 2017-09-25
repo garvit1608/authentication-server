@@ -1,9 +1,21 @@
+/**
+* @file Defines auth serivce
+*/
+
 var jwt    = require('jsonwebtoken');
 var User = require('../models/user');
 var config = require('../config/config');
 var Responder = require('./responder');
 
 module.exports = {
+
+ /**
+  *  Signup end point
+  *
+  *  @param {object} request
+  *  @param {object} response
+   * @return {object} success/error
+  */
 
   signup: function(req, res) {
     var params = req.body;
@@ -20,6 +32,14 @@ module.exports = {
       }
     });
   },
+
+  /**
+   *  Generates JWT Token
+   *
+   *  @param {object} request
+   *  @param {object} response
+   *  @return {object} token
+   */
 
   authenticate: function(req, res) {
     User.findOne({
@@ -56,6 +76,16 @@ module.exports = {
     });
   },
 
+  /**
+   *  Verifies JWT token request
+   *
+   *  @param {object} request
+   *  @param {object} response
+   *  @param {function} next middleware
+   *  @return {object} decoded token/error
+   */
+
+
   verifyToken: function(req, res, next) {
     var token = req.body.token || req.query.token || req.headers['access-token'];
 
@@ -77,6 +107,15 @@ module.exports = {
       });
     }
   },
+
+  /**
+   *  Generates JWT token for authentication via Google
+   *
+   *  @param {object} response
+   *  @param {object} payload
+   *  @return {object} token
+   */
+
 
   generateJwtToken: function(res, user) {
 

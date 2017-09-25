@@ -1,3 +1,8 @@
+/**
+ * @file Defines passport strategy for Google authentication
+ */
+
+
 var GoogleStrategy = require('passport-google-oauth20').Strategy;
 var User = require('../models/user');
 var config = require('../config/config');
